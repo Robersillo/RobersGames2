@@ -12,7 +12,7 @@
     <link href="css/slidefolio.css" rel="stylesheet">
 	<!-- Font Awesome -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
-	
+
 	<script type="text/javascript" src="jquery.js"></script>
 		<script type="text/javascript" src="vtip.js"></script>
 		<script type="text/javascript">
@@ -20,8 +20,8 @@
 			setTimeout(function() {$('#mensaje').fadeOut('fast');}, 3000);
 		});
 		</script>
-	
-			<style>	
+
+			<style>
 		#agenda{margin:10px;width:980px;margin:0 auto}
 		#agenda h1{text-align:left;margin:0;font-size:1.5em;color:#312c2b}
 		#agenda h2{text-align:left;margin:0;font-size:1em;color:#969696}
@@ -41,7 +41,7 @@
 		.verde{font-size:125% !important;font-weight:bold;color:green;}
 		.rojo{font-size:125% !important;font-weight:bold;color:red;}
 		</style>
-	
+
   </head>
   <body>
     <!-- Header Area -->
@@ -55,7 +55,7 @@
               <li><i class="fa fa-google-plus fa-3x"></i></li>
 			  <li><i class="fa fa-linkedin fa-3x"></i></li>
 			   <li><i class="fa fa-pinterest fa-3x"></i></li>
-            </ul>	
+            </ul>
 			<br>
 			<a href="#about" class="btn btn-top">VER FECHAS EVENTOS</a>
       </div>
@@ -73,7 +73,7 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-	<a href="#" class="navbar-brand">Rober's MENU 
+	<a href="#" class="navbar-brand">Rober's MENU
 	    <img class="img-rounded" alt="Company Logo" src="./img/logo2.png"/>
 	</a>
   </div>
@@ -90,7 +90,7 @@
   </div>
 </nav>
     <!-- /Navigation -->
-</div>	
+</div>
     <!-- About -->
     <div id="about" class="about_us">
       <div class="container">
@@ -101,7 +101,7 @@
 		   <!-- <h2>Sobre Nosotros</h2>
             <p class="lead">Lorem ipsum dolor sit amet, ei essent delenit sit, adipisci salutatus has eu. Quis tamquam cu nam. Sed esse deleniti et, ex rebum quaestio his. Audiam deseruisse sed cu, vix ex possim causae omittantur.</p>
            -->
-		   
+
 		   <div id="agenda">
 		<?php
 			include("config.inc.php");
@@ -127,24 +127,24 @@
 				if ($r1=mysql_query($q1)) $mostrar="<p class='ok' id='mensaje'>Evento eliminado correctamente.</p>";
 				else $mostrar="<p class='error' id='mensaje'>Se ha producido un error eliminando el evento.</p>";
 			}
-			
+
 			if (isset($_POST["addevent"])=="Si")
 			{
-				
+
 				$q1="insert into tcalendario (fecha,evento) values ('".$_POST["fechas"]."','".$_POST["titulos"]."')";
 				mysql_select_db($dbname);
 				if ($r1=mysql_query($q1)) $mostrar="<p class='ok' id='mensaje'>Evento guardado correctamente.</p>";
 				else $mostrar="<p class='error' id='mensaje'>Se ha producido un error guardando el evento.</p>";
 			}
-			
-			if (!isset($_GET["fecha"])) 
+
+			if (!isset($_GET["fecha"]))
 			{
 				$mesactual=intval(date("m"));
 				if ($mesactual<10) $elmes="0".$mesactual;
 				else $elmes=$mesactual;
 				$elanio=date("Y");
-			} 
-			else 
+			}
+			else
 			{
 				$cortefecha=explode("-",$_GET["fecha"]);
 				$mesactual=intval($cortefecha[1]);
@@ -152,19 +152,19 @@
 				else $elmes=$mesactual;
 				$elanio=$cortefecha[0];
 			}
-			
+
 			$primeromes=date("N",mktime(0,0,0,$mesactual,1,$elanio));
-			
-			if (!isset($_GET["mes"])) $hoy=date("Y-m-d"); 
+
+			if (!isset($_GET["mes"])) $hoy=date("Y-m-d");
 			else $hoy=$_GET["ano"]."-".$_GET["mes"]."-01";
-			
+
 			if (($elanio % 4 == 0) && (($elanio % 100 != 0) || ($elanio % 400 == 0))) $dias=array("","31","29","31","30","31","30","31","31","30","31","30","31");
 			else $dias=array("","31","28","31","30","31","30","31","31","30","31","30","31");
-			
+
 			$ides=array();
 			$eventos=array();
 			$titulos=array();
-			
+
 			$q1="select * from tcalendario where month(fecha)='".$elmes."' and year(fecha)='".$elanio."'";
 			mysql_select_db($dbname);
 			$r1=mysql_query($q1);
@@ -200,10 +200,10 @@
 			}
 			for ($i=1;$i<=$diasdespues;$i++)
 			{
-			
+
 				if ($filita<$totalfilas)
 				{
-				if ($i>=$primeromes && $i<=$tope) 
+				if ($i>=$primeromes && $i<=$tope)
 				{
 					echo "<td";
 					if ($j<10) $dd="0".$j;else $dd=$j;
@@ -213,7 +213,7 @@
 					if ($hoy==$compuesta) echo " hoy";
 					if ($noagregar==false) echo "'>$j<a href='javascript:mostrar(\"evento$j\")' title='Crear un Evento el ".fecha($compuesta)."' class='vtip'><img src='add.png' /></a><form id='evento$j' method='post' action='".$_SERVER["PHP_SELF"]."' style='display:none'><input type='text' name='titulo' class='text' /><input type='Submit' name='Enviar' value='Guardar' class='enviar' /><input type='hidden' name='guardarevento' value='Si' /><input type='hidden' name='fecha' value='$compuesta' /></form>";
 					else echo "'>$j<a href='javascript:mostrar(\"evento$j\")' title='Agregar un Evento el ".fecha($compuesta)."' class='vtip'><img src='add.png' /></a><form id='evento$j' method='post' action='".$_SERVER["PHP_SELF"]."' style='display:none'><input type='text' name='titulos' class='text' /><input type='Submit' name='Enviar' value='Guardar' class='enviar' /><input type='hidden' name='addevent' value='Si' /><input type='hidden' name='fechas' value='$compuesta' /></form>";
-					
+
 					$sqlevent="select * from tcalendario where fecha='".$compuesta."' order by id";
 					mysql_select_db($dbname);
 					$revent=mysql_query($sqlevent);
@@ -221,7 +221,7 @@
 					{
 						echo "<p>$rowevent[evento]<a href='".$_SERVER["PHP_SELF"]."?borrarevento=".$rowevent["id"]."' onClick=\"return confirm('&iquest;Confirmas la eliminaci&oacute;n del Evento?')\" title='Eliminar este Evento del ".fecha($compuesta)."' class='vtip'><img src='delete.png' /></a></p>";
 					}
-					
+
 					echo "</td>";
 					$j+=1;
 				}
@@ -245,7 +245,7 @@ var pageTracker = _gat._getTracker("UA-266167-20");
 pageTracker._setDomainName(".martiniglesias.eu");
 pageTracker._trackPageview();
 } catch(err) {}</script>
-		   
+
 		  </div>
         </div>
 	  </div>
@@ -302,23 +302,23 @@ pageTracker._trackPageview();
             <hr>
           </div>
         </div>
-		
+
 		<div class="row">
-		
+
 		<div class="gallery">
-		
+
     		  <ul id="Grid" class="gcontainer">
     		    <li class="col-md-4 col-sm-4 col-xs-12 mix bw Portadas" data-cat="Portadas">
               <a data-toggle="modal" data-target="#1" class="mix-cover">
                 <img class="horizontal" src="img/p1.jpg" alt="placeholder">
       		      <span class="overlay"><span class="valign"></span><span class="title">Portada Games CHANEL</span></span>
-              </a>                
+              </a>
       		  </li>
     		    <li class="col-md-4 col-sm-4 col-xs-12 mix Anime" data-cat="Anime">
                 <a data-toggle="modal" data-target="#2" class="mix-cover">
                   <img class="horizontal" src="img/p2.jpg" alt="placeholder">
         		      <span class="overlay"><span class="valign"></span><span class="title">One Piece</span></span>
-                </a>                
+                </a>
       		  </li>
 			  <li class="col-md-4 col-sm-4 col-xs-12 mix Anime" data-cat="Anime">
                 <a data-toggle="modal" data-target="#3" class="mix-cover">
@@ -347,24 +347,24 @@ pageTracker._trackPageview();
       		  <li class="col-md-4 col-sm-4 col-xs-12 mix WOW" data-cat="WOW">
                 <a data-toggle="modal" data-target="#7" class="mix-cover green">
                   <img class="vertical" src="img/p7.jpg" alt="portrait 4">
-                  <span class="overlay"><span class="valign"></span><span class="title">Elfa de Sangre</span></span>           
+                  <span class="overlay"><span class="valign"></span><span class="title">Elfa de Sangre</span></span>
         		    </a>
       		  </li>
 			  <li class="col-md-4 col-sm-4 col-xs-12 mix WOW all" data-cat="WOW">
                 <a data-toggle="modal" data-target="#8" class="mix-cover green">
                   <img class="vertical" src="img/p8.jpg" alt="Forest">
-                   <span class="overlay"><span class="valign"></span><span class="title">Elfa de Sangre Muerte</span></span>                    
+                   <span class="overlay"><span class="valign"></span><span class="title">Elfa de Sangre Muerte</span></span>
         		    </a>
       		  </li>
 			  <li class="col-md-4 col-sm-4 col-xs-12 mix WOW Anime all" data-cat="Anime">
                 <a data-toggle="modal" data-target="#9" class="mix-cover green">
                   <img class="vertical" src="img/p9.jpg" alt="Black and White">
-                   <span class="overlay"><span class="valign"></span><span class="title">Ichigo BLEACH</span></span>                  
+                   <span class="overlay"><span class="valign"></span><span class="title">Ichigo BLEACH</span></span>
         		    </a>
       		  </li>
-    		  </ul>   
-			  
-<!-- Load Photo in Modal -->			  
+    		  </ul>
+
+<!-- Load Photo in Modal -->
    <div class="modal fade" id="1" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -493,8 +493,8 @@ pageTracker._trackPageview();
 </div><!-- /.modal -->
 
 
-<!-- /Load Photo in Modal -->	
-		</div>	
+<!-- /Load Photo in Modal -->
+		</div>
       </div>
 		</div>
       </div>
@@ -541,8 +541,8 @@ pageTracker._trackPageview();
 	        			</div>
 						</fieldset>
 						</form>
-				
-				<!-- contact form ends -->		
+
+				<!-- contact form ends -->
           </div>
         </div>
       </div>
@@ -569,7 +569,7 @@ pageTracker._trackPageview();
 	<script src="js/jquery.validate.min.js"></script>
 	<script src="js/script.js"></script>
 	<script src="js/bootstrap.js"></script>
-	
+
 <!-- Slideshow Background  -->
 	<script>
 $.vegas('slideshow', {
@@ -584,7 +584,7 @@ $.vegas('slideshow', {
 	 { src:'./img/g7.jpg', fade:1000 },
 	   { src:'./img/g8.jpg', fade:1000 },
 	   { src:'./img/g9.jpg', fade:1000 }
-	   
+
   ]
 })('overlay', {
 src:'./img/overlay.png'
@@ -599,13 +599,13 @@ src:'./img/overlay.png'
     $('#Grid').mixitup();
       });
     </script>
-<!-- /Mixitup : Grid -->	
+<!-- /Mixitup : Grid -->
 
     <!-- Custom JavaScript for Smooth Scrolling - Put in a custom JavaScript file to clean this up -->
     <script>
       $(function() {
         $('a[href*=#]:not([href=#])').click(function() {
-          if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') 
+          if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
             || location.hostname == this.hostname) {
 
             var target = $(this.hash);
@@ -627,7 +627,7 @@ $(document).ready(function() {
   });
     </script>
 <!-- /Navbar-->
-	
+
   </body>
 
 </html>
